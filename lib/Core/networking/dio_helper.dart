@@ -36,10 +36,11 @@ class DioHelper {
     Map<String, dynamic>? query,
   }) async {
     try {
-      return await dio!.get(
+     Response response = await dio!.get(
         endPoint,
         queryParameters: query,
       );
+      return response;
     } catch (e) {
       log(e.toString());
     }
@@ -50,10 +51,11 @@ class DioHelper {
     required Map<String, dynamic> data,
   }) async {
     try {
-      return await dio!.post(
+     Response response = await dio!.post(
         endPoint,
         data: data,
       );
+      return response;
     } catch (e) {
       log(e.toString());
     }
@@ -64,10 +66,11 @@ class DioHelper {
     required Map<String, dynamic> data,
   }) async {
     try {
-      return await dio!.put(
+     Response response = await dio!.put(
         endPoint,
         data: data,
       );
+      return response;
     } catch (e) {
       log(e.toString());
     }
@@ -78,10 +81,11 @@ class DioHelper {
     Map<String, dynamic>? data,
   }) async {
     try {
-      return await dio!.delete(
+     Response response = await dio!.delete(
         endPoint,
         data: data,
       );
+      return response;
     } catch (e) {
       log(e.toString());
     }

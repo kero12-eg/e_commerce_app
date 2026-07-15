@@ -41,7 +41,7 @@ class _LoginscreenState extends State<Loginscreen> {
 
   @override
   Widget build(BuildContext context) {
-    AuthRepo().login("john@mail.com", "chae").then((
+    AuthRepo().login("john@mail.com", "changeme").then((
       either.Either<String, LoginResponseModel> res,
     ) {
       res.fold(
