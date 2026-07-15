@@ -1,11 +1,11 @@
-import 'dart:developer';
-
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:dartz/dartz.dart' as either;
 import 'package:e_commerce_app/Core/Routing/app_router.dart';
 import 'package:e_commerce_app/Core/Styling/Widgets/customtextfield.dart';
 import 'package:e_commerce_app/Core/Styling/Widgets/loading_widget.dart';
 import 'package:e_commerce_app/Core/Styling/Widgets/primarybutton.dart';
 import 'package:e_commerce_app/Core/Styling/app_style.dart';
+import 'package:e_commerce_app/Core/utils/animated_snack_bar.dart';
 import 'package:e_commerce_app/Features/Auth/model/login_response_model.dart';
 import 'package:e_commerce_app/Features/Auth/repo/auth_repo.dart';
 import 'package:flutter/gestures.dart';
@@ -23,8 +23,35 @@ class Loginscreen extends StatefulWidget {
 class _LoginscreenState extends State<Loginscreen> {
   bool ispasswordvisible = true;
   bool isloading = false;
-  final TextEditingController usernamecontroller = TextEditingController();
-  final TextEditingController passwordcontroller = TextEditingController();
+  TextEditingController usernamecontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    usernamecontroller = TextEditingController();
+    passwordcontroller = TextEditingController();
+    AuthRepo().login("john@mail.com", "changeme").then((
+      either.Either<String, LoginResponseModel> res,
+    ) {
+      res.fold(
+        (error) {
+          showanimatedsnackdialog(
+            context,
+            message: error,
+            type: AnimatedSnackBarType.error,
+          );
+        },
+        (right) {
+          showanimatedsnackdialog(
+            context,
+            message: "Login successfully",
+            type: AnimatedSnackBarType.success,
+          );
+        },
+      );
+      setState(() {});
+    });
+  }
 
   @override
   void dispose() {
@@ -41,18 +68,6 @@ class _LoginscreenState extends State<Loginscreen> {
 
   @override
   Widget build(BuildContext context) {
-    AuthRepo().login("john@mail.com", "changeme").then((
-      either.Either<String, LoginResponseModel> res,
-    ) {
-      res.fold(
-        (error) {
-          log(error.toString());
-        },
-        (right) {
-          log(right.toJson().toString());
-        },
-      );
-    });
     return Scaffold(
       body: isloading
           ? LoadingWidget()

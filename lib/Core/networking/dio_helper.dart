@@ -14,9 +14,7 @@ class DioHelper {
         receiveDataWhenStatusError: true,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: {"Content-Type": "application/json"},
       ),
     );
 
@@ -36,10 +34,7 @@ class DioHelper {
     Map<String, dynamic>? query,
   }) async {
     try {
-     Response response = await dio!.get(
-        endPoint,
-        queryParameters: query,
-      );
+      Response response = await dio!.get(endPoint, queryParameters: query);
       return response;
     } catch (e) {
       log(e.toString());
@@ -51,13 +46,10 @@ class DioHelper {
     required Map<String, dynamic> data,
   }) async {
     try {
-     Response response = await dio!.post(
-        endPoint,
-        data: data,
-      );
+      Response response = await dio!.post(endPoint, data: data);
       return response;
     } catch (e) {
-      log(e.toString());
+      rethrow;
     }
   }
 
@@ -66,10 +58,7 @@ class DioHelper {
     required Map<String, dynamic> data,
   }) async {
     try {
-     Response response = await dio!.put(
-        endPoint,
-        data: data,
-      );
+      Response response = await dio!.put(endPoint, data: data);
       return response;
     } catch (e) {
       log(e.toString());
@@ -81,10 +70,7 @@ class DioHelper {
     Map<String, dynamic>? data,
   }) async {
     try {
-     Response response = await dio!.delete(
-        endPoint,
-        data: data,
-      );
+      Response response = await dio!.delete(endPoint, data: data);
       return response;
     } catch (e) {
       log(e.toString());
