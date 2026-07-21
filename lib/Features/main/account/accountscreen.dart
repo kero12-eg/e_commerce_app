@@ -3,6 +3,8 @@ import 'package:e_commerce_app/Core/Styling/Widgets/primarybutton.dart';
 import 'package:e_commerce_app/Core/Styling/app_assets.dart';
 import 'package:e_commerce_app/Core/Styling/app_style.dart';
 import 'package:e_commerce_app/Core/Styling/appcolor.dart';
+import 'package:e_commerce_app/Core/utils/service_locator.dart';
+import 'package:e_commerce_app/Core/utils/storage_helper.dart';
 import 'package:e_commerce_app/Features/main/account/Widgets/accountitemwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -114,7 +116,8 @@ class Accountscreen extends StatelessWidget {
                       ),
                       actions: [
                         Primarybutton(
-                          onpressed: () {
+                          onpressed: () async {
+                            await sl<StorageHelper>().deleteToken();
                             context.goNamed(AppRouter.login);
                           },
                           text: "Yes, Logout",

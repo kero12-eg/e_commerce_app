@@ -1,13 +1,11 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/Core/networking/api_endpoints.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioHelper {
-  static Dio? dio;
-
-  static void initDio() {
+  Dio? dio;
+  Dio? dio2;
+  DioHelper() {
     dio ??= Dio(
       BaseOptions(
         baseUrl: ApiEndpoints.baseUrl,
@@ -27,21 +25,39 @@ class DioHelper {
         error: true,
       ),
     );
-  }
+        dio2 ??= Dio(
+      BaseOptions(
+        baseUrl: ApiEndpoints.baseUrl,
+        receiveDataWhenStatusError: true,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+        headers: {"Content-Type": "application/json"},
+      ),
+    );
 
-  static getRequest({
+    dio2!.interceptors.add(
+      PrettyDioLogger(
+        requestBody: true,
+        requestHeader: true,
+        responseBody: true,
+        responseHeader: true,
+        error: true,
+      ),
+    );
+  }
+  Future<Response<dynamic>> getRequest({
     required String endPoint,
     Map<String, dynamic>? query,
   }) async {
     try {
-      Response response = await dio!.get(endPoint, queryParameters: query);
+      Response response = await dio2!.get(endPoint, queryParameters: query);
       return response;
     } catch (e) {
-      log(e.toString());
+      rethrow;
     }
   }
 
-  static postRequest({
+  Future<Response<dynamic>> postRequest({
     required String endPoint,
     required Map<String, dynamic> data,
   }) async {
@@ -53,7 +69,7 @@ class DioHelper {
     }
   }
 
-  static putRequest({
+  Future<Response<dynamic>> putRequest({
     required String endPoint,
     required Map<String, dynamic> data,
   }) async {
@@ -61,11 +77,11 @@ class DioHelper {
       Response response = await dio!.put(endPoint, data: data);
       return response;
     } catch (e) {
-      log(e.toString());
+      rethrow;
     }
   }
 
-  static deleteRequest({
+  Future<Response<dynamic>> deleteRequest({
     required String endPoint,
     Map<String, dynamic>? data,
   }) async {
@@ -73,7 +89,7 @@ class DioHelper {
       Response response = await dio!.delete(endPoint, data: data);
       return response;
     } catch (e) {
-      log(e.toString());
+      rethrow;
     }
   }
 }

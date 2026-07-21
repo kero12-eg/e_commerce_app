@@ -1,12 +1,13 @@
 import 'package:e_commerce_app/Core/Routing/router_gen.dart';
 import 'package:e_commerce_app/Core/Styling/app_theme.dart';
-import 'package:e_commerce_app/Core/networking/dio_helper.dart';
+import 'package:e_commerce_app/Core/utils/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
- DioHelper.initDio();
+  setupServiceLocator();
+
   runApp(MyApp());
 }
 
