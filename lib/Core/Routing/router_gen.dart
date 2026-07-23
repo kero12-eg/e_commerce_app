@@ -4,8 +4,9 @@ import 'package:e_commerce_app/Features/Auth/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/Features/Auth/loginscreen/loginscreen.dart';
 import 'package:e_commerce_app/Features/Auth/registerscreen/registerscreen.dart';
 import 'package:e_commerce_app/Features/main/account/address/addressscreen.dart';
+import 'package:e_commerce_app/Features/main/cart/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/Features/main/detailsscreen/detailsscreen.dart';
-import 'package:e_commerce_app/Features/main/home/widgets/data.dart';
+import 'package:e_commerce_app/Features/main/home/models/product_model.dart';
 import 'package:e_commerce_app/Features/main/mainscreen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -18,10 +19,11 @@ class RouterGen {
       GoRoute(
         path: AppRouter.login,
         name: AppRouter.login,
-        builder: (context, state) =>
-            BlocProvider(create: (context) => sl<AuthCubit>(),
-            
-            child: Loginscreen()),
+        builder: (context, state) => BlocProvider(
+          create: (context) => sl<AuthCubit>(),
+
+          child: Loginscreen(),
+        ),
       ),
       GoRoute(
         path: AppRouter.register,
@@ -29,7 +31,8 @@ class RouterGen {
         builder: (context, state) {
           return BlocProvider(
             create: (context) => sl<AuthCubit>(),
-            child: const Registerscreen());
+            child: const Registerscreen(),
+          );
         },
       ),
       GoRoute(
@@ -41,8 +44,11 @@ class RouterGen {
         path: AppRouter.details,
         name: AppRouter.details,
         builder: (context, state) {
-          final data = state.extra as Data;
-          return Detailsscreen(data: data);
+          ProductModel product = state.extra as ProductModel;
+          return BlocProvider(
+            create: (context) => sl<CartCubit>(),
+            child: Detailsscreen(product: product),
+          );
         },
       ),
       GoRoute(

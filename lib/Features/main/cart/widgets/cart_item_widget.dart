@@ -9,31 +9,24 @@ class CartItemWidget extends StatefulWidget {
     this.imageurl,
     this.title,
     this.size,
-    this.price,
+    this.price, this.onRemove, this.quantity, this.onAdd, this.onMinus,
   });
   final String? imageurl;
   final String? title;
   final String? size;
   final String? price;
+  final int? quantity;
+  final void Function()? onRemove;
+  final void Function()? onAdd;
+  final void Function()? onMinus;
   @override
   State<CartItemWidget> createState() => _CartItemWidgetState();
 }
 
 class _CartItemWidgetState extends State<CartItemWidget> {
-  int count = 0;
-
-  void increment() {
-    setState(() {
-      count++;
-    });
-  }
-
-  void decrement() {
-    if (count > 0) {
-      setState(() {
-        count--;
-      });
-    }
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -52,7 +45,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
           SizedBox(
             width: 80.w,
             height: 80.h,
-            child: Image.asset(
+            child: Image.network(
               widget.imageurl ?? AppAssets.product2,
               fit: BoxFit.cover,
             ),
@@ -75,7 +68,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed:widget.onRemove,
                       icon: Image.asset(
                         AppAssets.delete,
                         width: 22.w,
@@ -99,14 +92,14 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                     const Spacer(),
 
                     IconButton(
-                      onPressed: decrement,
+                      onPressed: widget.onMinus,
                       icon: const Icon(Icons.remove),
                     ),
 
-                    Text("$count", style: AppStyle.labeltextfield),
+                    Text("${widget.quantity ?? 1}", style: AppStyle.labeltextfield),
 
                     IconButton(
-                      onPressed: increment,
+                      onPressed: widget.onAdd,
                       icon: const Icon(Icons.add),
                     ),
                   ],

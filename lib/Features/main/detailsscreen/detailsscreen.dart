@@ -1,14 +1,19 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:e_commerce_app/Core/Styling/Widgets/primarybutton.dart';
 import 'package:e_commerce_app/Core/Styling/app_assets.dart';
 import 'package:e_commerce_app/Core/Styling/app_style.dart';
-import 'package:e_commerce_app/Features/main/home/widgets/data.dart';
+import 'package:e_commerce_app/Core/utils/animated_snack_bar.dart';
+import 'package:e_commerce_app/Features/main/cart/cubit/cart_cubit.dart';
+import 'package:e_commerce_app/Features/main/cart/model/cart_model.dart';
+import 'package:e_commerce_app/Features/main/home/models/product_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class Detailsscreen extends StatelessWidget {
-  const Detailsscreen({super.key, required this.data});
-  final Data data;
+  const Detailsscreen({super.key, required this.product});
+  final ProductModel product;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,12 +42,15 @@ class Detailsscreen extends StatelessWidget {
                   SizedBox(
                     width: 341.w,
                     height: 369.h,
-                    child: Image.asset(data.image!, fit: BoxFit.cover),
+                    child: Image.network(
+                      product.images!.first,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   SizedBox(height: 12.h),
 
                   Text(
-                    data.name!,
+                    product.title!,
                     style: AppStyle.headlinestyle.copyWith(fontSize: 24.sp),
                   ),
 
@@ -52,13 +60,13 @@ class Detailsscreen extends StatelessWidget {
                     children: [
                       Image.asset(AppAssets.star, width: 16.w, height: 16.h),
                       SizedBox(width: 5.w),
-                      Text(data.rate!, style: AppStyle.labeltextfield),
+                      Text("4.5", style: AppStyle.labeltextfield),
                     ],
                   ),
 
                   SizedBox(height: 13.h),
 
-                  Text(data.description!, style: AppStyle.subheadlinestyle),
+                  Text(product.description!, style: AppStyle.subheadlinestyle),
 
                   SizedBox(height: 30.h),
                 ],
@@ -81,7 +89,10 @@ class Detailsscreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Price", style: AppStyle.subheadlinestyle),
-                          Text(data.price!, style: AppStyle.labeltextfield),
+                          Text(
+                            product.price.toString(),
+                            style: AppStyle.labeltextfield,
+                          ),
                         ],
                       ),
                       SizedBox(width: 16.w),
@@ -89,7 +100,21 @@ class Detailsscreen extends StatelessWidget {
                         child: Primarybutton(
                           text: "Add to Cart",
                           icon: AppAssets.bag,
-                          onpressed: () {},
+                          onpressed: () {
+                            context.read<CartCubit>().addToCart(
+                              CartModel(
+                                id: product.id!,
+                                title: product.title!,
+                                price: product.price!.toDouble(),
+                                image: product.images!.first,
+                              ),
+                            );
+                            showanimatedsnackdialog(
+                              context,
+                              message: "Product added to cart",
+                              type: AnimatedSnackBarType.success,
+                            );
+                          },
                           height: 54.h,
                         ),
                       ),

@@ -8,7 +8,7 @@ class Customtextfield extends StatelessWidget {
     required this.hinttext,
     this.obscuretext,
     this.suffixicon,
-    this.controller, this.prefixicon, this.width, this.height,
+    this.controller, this.prefixicon, this.width, this.height, this.onChanged,
   });
   final String hinttext;
   final bool? obscuretext;
@@ -17,12 +17,14 @@ class Customtextfield extends StatelessWidget {
   final Icon? prefixicon;
   final double? width;
   final double? height;
+final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? 341.w,
       height: height ?? 52.h,
       child: TextField(
+        onChanged: onChanged,
         controller: controller,
         obscureText: obscuretext ?? false,
         autofocus: true,

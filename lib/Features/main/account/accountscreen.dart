@@ -19,12 +19,6 @@ class Accountscreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Account"),
         centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            context.pushReplacementNamed(AppRouter.home);
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -92,7 +86,8 @@ class Accountscreen extends StatelessWidget {
                 onTap: () {
                   showDialog(
                     context: context,
-                    builder: (ctx) => AlertDialog(
+                    builder: (ctx) {
+                      return AlertDialog(
                       title: Column(
                         crossAxisAlignment: .center,
                         children: [
@@ -132,7 +127,8 @@ class Accountscreen extends StatelessWidget {
                           color2: Appcolor.primaryColor,
                         ),
                       ],
-                    ),
+                                          );
+                    },
                   );
                 },
                 child: Row(

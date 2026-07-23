@@ -12,7 +12,7 @@ class Customiconbutton extends StatelessWidget {
     this.radus,
   });
   final VoidCallback? onpressed;
-  final String? icon;
+  final Icon? icon;
   final double? width;
   final double? height;
   final double? radus;
@@ -20,7 +20,7 @@ class Customiconbutton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: onpressed,
-      icon: Image.asset(icon!),
+      icon: icon!,
       style: IconButton.styleFrom(
         backgroundColor: Appcolor.primarybackgroundbutton,
         fixedSize: Size(width ?? 20.25.w, height ?? 18.75.h),
